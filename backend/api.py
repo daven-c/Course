@@ -6,7 +6,7 @@ from utils.schedule_finder import get_course_list
 
 @app.route("/get_student/<string:dir_id>", methods=["GET"])
 def get_student(dir_id):
-    student = Student.query.get(dir_id)
+    student = Student.query.all(dir_id)[0]
     if student is None:
         return jsonify({"message": f"{dir_id} not found"}), 404
     return jsonify({"message": f"{dir_id} found", "student": student.to_json()}), 200
