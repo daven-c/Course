@@ -11,12 +11,14 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from getpass import getpass
 import time
+import os
 
 duo_auth_url = "https://api-05cb7de8.duosecurity.com"
 auth_link = "https://app.testudo.umd.edu"
 chrome_options = Options()
 chrome_options.add_argument("--headless=new")
-service = Service(executable_path=r"\Users\justi\Documents\GitHub\Course\backend\utils\chromedriver.exe")
+abs_path = os.path.dirname(os.path.abspath(__file__)) + "/chromedriver.exe"
+service = Service(executable_path=fr"{abs_path}")
 pattern = r'([A-Z]+)\s*(\d+)\s*\((\d+)\)'
 
 def get_student_schedule_source(username, pwd):
@@ -69,3 +71,5 @@ def get_course_list(uid, pwd):
         raw_course_lst.append(div.get_text(strip=True, separator='\n'))
     return (tuplify(raw_course_lst))
 
+if __name__ == '__main__':
+    print(get_course_list("avinod", getpass("Enter PWD: ")))
