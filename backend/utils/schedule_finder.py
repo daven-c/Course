@@ -17,8 +17,8 @@ duo_auth_url = "https://api-05cb7de8.duosecurity.com"
 auth_link = "https://app.testudo.umd.edu"
 chrome_options = Options()
 chrome_options.add_argument("--headless=new")
-abs_path = os.path.dirname(os.path.abspath(__file__)) + "/utils/chromedriver.exe"
-service = Service(executable_path=abs_path)
+abs_path = os.path.dirname(os.path.abspath(__file__)) + "/chromedriver.exe"
+service = Service(executable_path=fr"{abs_path}")
 pattern = r'([A-Z]+)\s*(\d+)\s*\((\d+)\)'
 
 def get_student_schedule_source(username, pwd):
