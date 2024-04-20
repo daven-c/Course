@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from config import app, db
 from models import Student
-from utils import schedule_finder
+from utils.schedule_finder import get_course_list
 
 
 @app.route("/get_student/<string:dir_id>", methods=["GET"])
@@ -12,10 +12,10 @@ def get_student(dir_id):
     return jsonify({"message": f"{dir_id} found", "student": student.to_json()}), 200
 
 
-@app.route("/auth_student", methods=["GET"])
+@app.route("/auth_student", methods=["POST"])
 def auth_student():
-    dir_id = response.json.get("dirID")
-    password = response.json.get("password")
+    dir_id = request.json.get("dirID")
+    password = request.json.get("password")
 
     course_list = get_course_list(dir_id, password)
 
