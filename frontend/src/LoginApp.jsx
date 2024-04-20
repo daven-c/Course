@@ -6,7 +6,6 @@ function LoginApp() {
     const [password, setPassword] = useState("");
     
     const onSubmit = async (e) => {
-        console.log("hi")
         e.preventDefault();
 
         const data = {
@@ -25,6 +24,7 @@ function LoginApp() {
 
         const response = await fetch(url, options)
         if (response.status !== 200) {
+            console.log("Invalid credentials")
             alert("Invalid credentials")
         } else {
             alert("Login successful")

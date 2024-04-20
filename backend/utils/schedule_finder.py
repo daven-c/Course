@@ -16,7 +16,7 @@ duo_auth_url = "https://api-05cb7de8.duosecurity.com"
 auth_link = "https://app.testudo.umd.edu"
 chrome_options = Options()
 chrome_options.add_argument("--headless=new")
-service = Service(executable_path="chromedriver.exe")
+service = Service(executable_path=r"\Users\justi\Documents\GitHub\Course\backend\utils\chromedriver.exe")
 pattern = r'([A-Z]+)\s*(\d+)\s*\((\d+)\)'
 
 def get_student_schedule_source(username, pwd):
@@ -68,3 +68,4 @@ def get_course_list(uid, pwd):
     for div in divs:
         raw_course_lst.append(div.get_text(strip=True, separator='\n'))
     return (tuplify(raw_course_lst))
+
