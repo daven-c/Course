@@ -1,15 +1,32 @@
 from flask import request, jsonify
 from config import app, db
 from models import Student
+import json
 from utils.schedule_finder import get_course_list
 
 
 @app.route("/get_student/<string:dir_id>", methods=["GET"])
 def get_student(dir_id):
-    student = Student.query.all(dir_id)[0]
+    student = Student.query.get(dir_id)
     if student is None:
         return jsonify({"message": f"{dir_id} not found"}), 404
     return jsonify({"message": f"{dir_id} found", "student": student.to_json()}), 200
+
+@app.route("/get_friends/<string:dir_id>", methods=["GET"])
+def get_friends(dir_id):
+    friends = []
+    student = Student.query.get(dir_id)
+    student_data = {key: value for key, value in student.__dict__.items() if key.startswith('course') and value != None}
+    for row in Student.query.all():
+        if getattr(row, "dir_id") == dir_id:
+            continue
+        for course in student_data:
+            if course in (getattr(row, column.name) for column in Student.__table__.columns):
+                friends.append([getattr(row, "dir_id"), course])
+    
+    json_data = json.dumps(friends)
+    return json_data
+
 
 
 @app.route("/auth_student", methods=["POST"])
@@ -25,6 +42,7 @@ def auth_student():
     student = Student.query.get(dir_id)
     if student is None:  # Student doesn't exist yet
         response = create_student(dir_id)
+        update_courses(dir_id, course_list)
         return response
     else:
         return jsonify({"message": "authentication success"}), 200
@@ -53,24 +71,16 @@ def update_student():
 
     return jsonify({"message": "Student updated"})
 
-
-@app.route("/update_courses/<string:dir_id>", methods=["PUT"])
-def update_courses(dir_id):
-    # Get courses related to dir_id
-    new_courses = ...  # Yet to be implemented
-
+def update_courses(dir_id, courseList):
     student = Student.query.get(dir_id)
 
-    if len(new_courses) > 8:
+    if len(courseList) > 8:
         return jsonify({"message": "failed to update course list"}, 417)
 
-    for i, course in enumerate(course_list):
-        setattr(student, f"course{i+len(existing_courses)+1}", course)
+    for i, course in enumerate(courseList):
+        setattr(student, f"course{i + 1}", course)
 
     db.session.commit()
-
-    return jsonify({"message": "User updated"}), 200
-
 
 if __name__ == "__main__":
     with app.app_context():
