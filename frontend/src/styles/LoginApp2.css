@@ -10,11 +10,16 @@
 	}
 }
 
-
-.login-app {
-	background: linear-gradient(-45deg, white, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+.gradient-flow {
+    background: linear-gradient(-45deg, white, #ee7752, #e73c7e, #23a6d5, #23d5ab);
 	background-size: 400% 400%;
 	animation: gradient 15s ease infinite;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.login-app {
+	background-color: rgb(30,33,36);
 	overflow: hidden; 	
 }
 
@@ -28,14 +33,12 @@
 
 .container {
 	width: 300px;
-	background-color: rgba( 255, 255, 255, 0.2);
+	background-color: rgb(40,43,48);
 	padding: 20px;
 	box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-	backdrop-filter: blur(4px);
-	-webkit-backdrop-filter: blur(4px);
 	border-radius: 10px;
-	border: 1px solid rgba( 255, 255, 255, 0.18 );
-	
+	border: 3px solid rgba( 255, 255, 255, 0.18 );
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .container h2 {
@@ -47,7 +50,6 @@
 	display: block;
 	margin-bottom: 10px;
 	font-size: 20px;
-	font-family: Inter, Arial;
 }
 
 .container input[type="text"],

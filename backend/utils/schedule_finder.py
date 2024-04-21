@@ -14,12 +14,12 @@ import time
 import os
 
 duo_auth_url = "https://api-05cb7de8.duosecurity.com"
-auth_link = "https://app.testudo.umd.edu"
+auth_link = "https://sso.canvaslms.com/delegated_auth_pass_through?target=https%3A%2F%2Fumd.instructure.com%2F"
 chrome_options = Options()
 chrome_options.add_argument("--headless=new")
 abs_path = os.path.dirname(os.path.abspath(__file__)) + "/chromedriver.exe"
 service = Service(executable_path=fr"{abs_path}")
-pattern = r'([A-Z]+)\s*(\d+)\s*\((\d+)\)'
+pattern = r'[A-Z]+\d+'
 
 def check_auth(driver):
     try:
@@ -46,12 +46,15 @@ def get_student_schedule_source(username, pwd):
     
     try:
         print("Waiting for Duo Authentication...")
-        button = WebDriverWait(driver, 20).until(
+        button = WebDriverWait(driver, 180).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, ".button--primary--full-width.button--primary.button--xlarge.size-margin-top-xlarge.size-margin-bottom-medium"))
         )
         print("Done!")
         button.click()
-        time.sleep(7)
+        time.sleep(6)
+        button2 = driver.find_element(By.ID, "global_nav_courses_link")
+        button2.click()
+        time.sleep(2)
         source = driver.page_source
         driver.quit()
         return source
@@ -62,11 +65,12 @@ def get_student_schedule_source(username, pwd):
         driver.quit()
         return None
 
-def tuplify(raw_lst):
+def purify(raw_lst):
     final_lst = []
     for entry in raw_lst:
-        matches = re.findall(pattern, entry)
-        final_lst.append((matches[0][0] + matches[0][1],matches[0][2]))
+        string = entry[:7]
+        if re.match(pattern, string):
+            final_lst.append(string)
 
     return final_lst
 
@@ -75,13 +79,14 @@ def get_course_list(uid, pwd):
     if source == None:
         return None
     soup = BeautifulSoup(source, 'html.parser')
-
-    divs = soup.find_all('div',class_='course-card-label ng-binding')
+    
+    divs = soup.find_all('a', class_='css-102w4y0-view-link')
     raw_course_lst = []
     for div in divs:
         raw_course_lst.append(div.get_text(strip=True, separator='\n'))
-    print(tuplify(raw_course_lst))
-    return (tuplify(raw_course_lst))
+
+    print(purify(raw_course_lst))
+    return (purify(raw_course_lst))
 
 if __name__ == '__main__':
     print(get_course_list("avinod", getpass("Enter PWD: ")))

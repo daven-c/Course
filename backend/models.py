@@ -2,8 +2,7 @@ from config import db
 
 class Student(db.Model):
     dir_id = db.Column(db.String(80), primary_key=True)
-    first_name = db.Column(db.String(80), unique=False, nullable=True)
-    last_name = db.Column(db.String(80), unique=False, nullable=True)
+    full_name = db.Column(db.String(80), unique=False, nullable=True)
     insta_handle = db.Column(db.String(80), unique=True, nullable=True)
     course1 = db.Column(db.String(80), nullable=True)
     course2 = db.Column(db.String(80), nullable=True)
@@ -17,8 +16,7 @@ class Student(db.Model):
     def to_json(self):
         return {
             "dir_id": self.dir_id,
-            "first_name": self.first_name,
-            "last_name": self.last_name,
+            "full_name": self.full_name,
             "insta_handle": self.insta_handle,
             "course1": self.course1,
             "course2": self.course2,

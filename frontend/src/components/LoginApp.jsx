@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "../styles/LoginApp.css";
+import "../styles/LoginApp2.css";
 
 function LoginApp({callback}) {
     const [dirID, setdirID] = useState("");
@@ -7,6 +7,7 @@ function LoginApp({callback}) {
     const [isLoading, setLoading] = useState(false);
 
     const onSubmit = async (e) => {
+        alert("Please check your DUO verification app!")
         if (isLoading) {
             return;
         }
@@ -29,12 +30,10 @@ function LoginApp({callback}) {
         };
 
         const response = await fetch(url, options);
-        const resp_data = response.json();
+        const resp_data = await response.json();
         if (response.status == 200) {
-            alert(resp_data.message);
             callback(dirID);
         } else {
-            alert(resp_data.message);
             callback(null);
         }
         setLoading(false)
@@ -44,8 +43,8 @@ function LoginApp({callback}) {
             <form onSubmit={onSubmit}>
                 <div className="top-container">
                     <div className="container">
-                        <h2>Sign In</h2>
-                        <label htmlFor="dirID">Directory ID</label>
+                        <h2 className="gradient-flow">Sign In</h2>
+                        <label htmlFor="dirID" className="gradient-flow">Directory ID</label>
                         <input
                             type="text"
                             id="dirID"
@@ -53,7 +52,7 @@ function LoginApp({callback}) {
                             value={dirID}
                             onChange={(ele) => setdirID(ele.target.value)}
                         />
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="password" className="gradient-flow">Password</label>
                         <input
                             type="password"
                             id="password"

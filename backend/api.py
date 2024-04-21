@@ -12,21 +12,20 @@ def get_student(dir_id):
         return jsonify({"message": f"{dir_id} not found"}), 404
     return jsonify({"message": f"{dir_id} found", "student": student.to_json()}), 200
 
-@app.route("/get_friends/<string:dir_id>", methods=["GET"])
-def get_friends(dir_id):
-    friends = []
-    student = Student.query.get(dir_id)
-    student_data = {key: value for key, value in student.__dict__.items() if key.startswith('course') and value != None}
-    for row in Student.query.all():
-        if getattr(row, "dir_id") == dir_id:
-            continue
-        for course in student_data:
-            if course in (getattr(row, column.name) for column in Student.__table__.columns):
-                friends.append([getattr(row, "dir_id"), course])
-    
-    json_data = json.dumps(friends)
-    return json_data
 
+@app.route("/get_connections/<string:dir_id>", methods=["GET"])
+def get_connections(dir_id):
+    connections = []
+    student = Student.query.get(dir_id)
+    student_courses = {value for key, value in student.__dict__.items(
+    ) if key.startswith('course') and value != None}
+    for connection in Student.query.all():  
+        if student.dir_id != connection.dir_id:
+            connection_courses = {value for key, value in connection.__dict__.items(
+            ) if key.startswith('course') and value != None}
+            shared_courses = student_courses.intersection(connection_courses)
+            connections.append([connection.dir_id, list(shared_courses)])
+    return jsonify({"connections": connections}), 200
 
 
 @app.route("/auth_student", methods=["POST"])
@@ -45,6 +44,7 @@ def auth_student():
         update_courses(dir_id, course_list)
         return response
     else:
+        update_courses(dir_id, course_list)
         return jsonify({"message": "authentication success"}), 200
 
 
@@ -58,18 +58,17 @@ def create_student(dir_id):
 @app.route("/update_student", methods=["PUT"])
 def update_student():
     dir_id = request.json.get("dir_id")
-    first_name = request.json.get("first_name")
-    last_name = request.json.get("last name")
+    full_name = request.json.get("full_name")
     insta_handle = request.json.get("insta_handle")
 
     student = Student.query.get(dir_id)
-    student.first_name = first_name
-    student.last_name = last_name
+    student.full_name = full_name
     student.insta_handle = insta_handle
 
     db.session.commit()
 
-    return jsonify({"message": "Student updated"})
+    return jsonify({"message": "Student updated"}), 200
+
 
 def update_courses(dir_id, courseList):
     student = Student.query.get(dir_id)
@@ -81,6 +80,22 @@ def update_courses(dir_id, courseList):
         setattr(student, f"course{i + 1}", course)
 
     db.session.commit()
+
+@app.route("/delete_student/<string:dir_id>", methods=["GET"])
+def delete_student(dir_id):
+    student = Student.query.get(dir_id)
+    if student is None:
+        return jsonify({"message": f"{dir_id} not found"}), 404
+
+    try:
+        db.session.delete(student)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"message": f"Error deleting student: {str(e)}"}), 500
+
+    return jsonify({"message": "Student deleted successfully"}), 200
+
 
 if __name__ == "__main__":
     with app.app_context():

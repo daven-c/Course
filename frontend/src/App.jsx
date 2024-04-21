@@ -4,12 +4,17 @@ import ResultsApp from "./components/ResultsApp"
 import "./styles/general.css"
 
 function App() {
-    const [dirID, setDirID] = useState(null)
+    const [dirID, setDirID] = useState(null);
+
+    const handle = (id) => {
+        console.log("id returned: " + id);
+        setDirID(id);
+    }
 
     return (
         <>
           {dirID === null ? (
-            <LoginApp callback={setDirID} />
+            <LoginApp callback={handle} />
           ) : (
             <ResultsApp dirID={dirID} /> // Pass uid as a prop
           )}
