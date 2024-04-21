@@ -5,6 +5,20 @@ function ResultsApp({ dirID }) {
 
     const [student, setStudent] = useState({});
     const [connections, setConnections] = useState([]);
+    const [selectedCourses, setSelectedCourses] = useState([]);
+
+    const selectCourse = (e) => {
+        const course = e.target.innerHTML;
+        setSelectedCourses(prevSelectedCourses => {
+            if (prevSelectedCourses.includes(course)) {
+                return prevSelectedCourses.filter(c => c !== course);
+            } else {
+                // Course is not selected, add it
+                return [...prevSelectedCourses, course];
+            }
+        });
+        console.log(selectedCourses)
+    };
 
     useEffect(() => {
         fetchProfile();   // Wait for profile fetch to complete
@@ -66,13 +80,13 @@ function ResultsApp({ dirID }) {
                     {
                         Object.keys(student)
                             .filter((key) => key.startsWith("course") && student[key] !== null)
-                            .map((key) => <li key={key}>{student[key]}</li>)
+                            .map((key) => <li key={key} onClick={selectCourse} className={selectedCourses.includes(student[key]) ? "selected" : ""}><span>{student[key]}</span></li>)
                     }
                 </ul>
             </div>
             <div className="connections">
                 {connections.map(([name, courses]) => (
-                    <div className="cnct-item" key={name}> {/* Add a unique key here */}
+                    <div className={(courses.some(course => selectedCourses.includes(course))) ? "cnct-item selected" : "cnct-item"} key={name}> {/* Add a unique key here */}
                         <h2 className="cnct-name">{name}</h2>
                         <div className="seperator"></div>
                         <div className="cnct-course-container">

@@ -4,7 +4,7 @@ import ResultsApp from "./components/ResultsApp"
 import "./styles/general.css"
 
 function App() {
-    const [dirID, setDirID] = useState(null);
+    const [dirID, setDirID] = useState("dchangiz");
 
     const handle = (id) => {
         console.log("id returned: " + id);
