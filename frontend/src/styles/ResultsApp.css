@@ -65,6 +65,7 @@
 	color: white;
 	margin-bottom: 10px;
 	cursor: pointer;
+	transition: 150ms;
 
 	&::before {
 		position: absolute;
@@ -160,6 +161,7 @@
 	border: 3px solid #111;
 	border-radius: 8px;
 	align-items: center;
+	transition: 150ms;
 }
 
 .cnct-item.selected {
