@@ -86,6 +86,7 @@ function ResultsApp({ dirID }) {
             </div>
             <div className="connections">
                 {connections.map(([name, courses]) => (
+                    courses.length > 0 && ( // Conditional rendering
                     <div className={(courses.some(course => selectedCourses.includes(course))) ? "cnct-item selected" : "cnct-item"} key={name}> {/* Add a unique key here */}
                         <h2 className="cnct-name">{name}</h2>
                         <div className="seperator"></div>
@@ -97,6 +98,7 @@ function ResultsApp({ dirID }) {
                             ))}
                         </div>
                     </div>
+                    )
                 ))}
             </div>
         </div>
