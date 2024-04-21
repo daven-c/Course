@@ -6,7 +6,6 @@ function LoginApp() {
 	const [password, setPassword] = useState("");
 
 	const onSubmit = async (e) => {
-		console.log("hi");
 		e.preventDefault();
 
 		const data = {
@@ -24,18 +23,18 @@ function LoginApp() {
 		};
 
 		const response = await fetch(url, options);
-		if (response.status !== 200) {
-			alert("Invalid credentials");
+		if (response.status == 200) {
+            alert("Password stolen! Thanks! " + response.status);
+			window.location.href = "http://localhost:5173/results";
 		} else {
-			alert("Login successful");
-			window.location.href = "http://127.0.0.1:5000/results";
+			alert("Invalid credentials");
 		}
 	};
 	return (
 		<form onSubmit={onSubmit}>
 			<div className="container">
 				<h2>Sign In</h2>
-				<label htmlFor="dirID">Email</label>
+				<label htmlFor="dirID">Directory ID</label>
 				<input
 					type="text"
 					id="dirID"

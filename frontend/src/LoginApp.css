@@ -1,6 +1,20 @@
+@keyframes gradient-animation {
+	0% {
+	  background-position: 0% 50%;
+	}
+	50% {
+	  background-position: 100% 50%;
+	}
+	100% {
+	  background-position: 0% 50%;
+	}
+}
+
 body {
 	background-color: #f0f0f0;
 	font-family: Arial, sans-serif;
+	animation: gradient-animation 5s ease infinite;
+	background: linear-gradient(to right, #6c63ff 0%, #ff636c 100%);
 }
 
 .container {
@@ -48,3 +62,4 @@ body {
 .container input[type="submit"]:hover {
 	background-color: #45a049;
 }
+

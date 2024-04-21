@@ -69,6 +69,7 @@ def get_course_list(uid, pwd):
     raw_course_lst = []
     for div in divs:
         raw_course_lst.append(div.get_text(strip=True, separator='\n'))
+    print(tuplify(raw_course_lst))
     return (tuplify(raw_course_lst))
 
 if __name__ == '__main__':
