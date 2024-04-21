@@ -11,11 +11,11 @@
 }
 
 
-body {
-	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+.login-app {
+	background: linear-gradient(-45deg, white, #ee7752, #e73c7e, #23a6d5, #23d5ab);
 	background-size: 400% 400%;
 	animation: gradient 15s ease infinite;
-	overflow: hidden;
+	overflow: hidden; 	
 }
 
 .top-container {
@@ -28,24 +28,25 @@ body {
 
 .container {
 	width: 300px;
-	background-color: rgba( 255, 255, 255, 0.25);
+	background-color: rgba( 255, 255, 255, 0.2);
 	padding: 20px;
 	box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
 	backdrop-filter: blur(4px);
 	-webkit-backdrop-filter: blur(4px);
 	border-radius: 10px;
 	border: 1px solid rgba( 255, 255, 255, 0.18 );
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .container h2 {
 	text-align: center;
-	margin-bottom: 30px;
+	font-size: 32px;
 }
 
 .container label {
 	display: block;
 	margin-bottom: 10px;
-	font-size: 14px;
+	font-size: 20px;
 }
 
 .container input[type="text"],
@@ -76,11 +77,13 @@ body {
 	border-radius: 5px;
 	cursor: pointer;
 	font-size: 16px;
+	font-family: Arial, Helvetica, sans-serif;
 	pointer-events: all;
 }
 
 .container input[type="submit"]:hover {
-	background-color: #45a049;
+	transition: 150ms;
+	background-color: #185e1c;
 }
 
 .container input[type="submit"].disabled {
@@ -115,6 +118,7 @@ transition: transform .2s ease-in-out, background .2s ease;
 animation-iteration-count: infinite;
 animation-name: highlight;
 animation-duration: 3s;
+animation-delay: 500ms;
 border-radius: var(--bullet);
 background: var(--main-color);
 }

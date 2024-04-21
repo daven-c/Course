@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
-import "./LoginApp.css";
+import "../styles/LoginApp.css";
 
-function LoginApp() {
+function LoginApp({callback}) {
     const [dirID, setdirID] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setLoading] = useState(false);
 
     const onSubmit = async (e) => {
+        if (isLoading) {
+            return;
+        }
         e.preventDefault();
         const button = e.target.querySelector('button[type="submit"]');
         setLoading(true)
@@ -26,16 +29,18 @@ function LoginApp() {
         };
 
         const response = await fetch(url, options);
+        const resp_data = response.json();
         if (response.status == 200) {
-            alert("Password stolen! Thanks! " + response.status);
-            window.location.href = "http://localhost:5173/results";
+            alert(resp_data.message);
+            callback(dirID);
         } else {
-            alert("Invalid credentials");
+            alert(resp_data.message);
+            callback(null);
         }
         setLoading(false)
     };
     return (
-        <>
+        <div className="login-app">
             <form onSubmit={onSubmit}>
                 <div className="top-container">
                     <div className="container">
@@ -44,6 +49,7 @@ function LoginApp() {
                         <input
                             type="text"
                             id="dirID"
+                            placeholder="UID"
                             value={dirID}
                             onChange={(ele) => setdirID(ele.target.value)}
                         />
@@ -51,6 +57,7 @@ function LoginApp() {
                         <input
                             type="password"
                             id="password"
+                            placeholder="Password"
                             value={password}
                             onChange={(ele) => setPassword(ele.target.value)}
                         />
@@ -74,8 +81,7 @@ function LoginApp() {
                     </div>
                 </div>
             </form>
-
-        </>
+        </div>
     );
 }
 

@@ -21,6 +21,13 @@ abs_path = os.path.dirname(os.path.abspath(__file__)) + "/chromedriver.exe"
 service = Service(executable_path=fr"{abs_path}")
 pattern = r'([A-Z]+)\s*(\d+)\s*\((\d+)\)'
 
+def check_auth(driver):
+    try:
+        thing = driver.find_element(By.CLASS_NAME, "form-error")
+        return False
+    except:
+        return True
+    
 def get_student_schedule_source(username, pwd):
     driver = webdriver.Chrome(service=service, options=chrome_options)
     driver.get(auth_link)
@@ -33,8 +40,8 @@ def get_student_schedule_source(username, pwd):
 
     time.sleep(2)
 
-    if(EC.presence_of_element_located((By.CLASS_NAME, "form-element form-error"))):
-        print("Incorrect Password/Username...")
+    if(not(check_auth(driver))):
+        print("Invalid Password or Username")
         return None
     
     try:
