@@ -33,6 +33,10 @@ def get_student_schedule_source(username, pwd):
 
     time.sleep(2)
 
+    if(EC.presence_of_element_located((By.CLASS_NAME, "form-element form-error"))):
+        print("Incorrect Password/Username...")
+        return None
+    
     try:
         print("Waiting for Duo Authentication...")
         button = WebDriverWait(driver, 20).until(

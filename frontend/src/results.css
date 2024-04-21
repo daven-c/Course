@@ -1,21 +1,20 @@
-@keyframes gradient {
+@keyframes gradient-animation {
 	0% {
-		background-position: 0% 50%;
+	  background-position: 0% 50%;
 	}
 	50% {
-		background-position: 100% 50%;
+	  background-position: 100% 50%;
 	}
 	100% {
-		background-position: 0% 50%;
+	  background-position: 0% 50%;
 	}
 }
 
-
 body {
-	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-	background-size: 400% 400%;
-	animation: gradient 15s ease infinite;
-	overflow: hidden;
+	background-color: #f0f0f0;
+	font-family: Arial, sans-serif;
+	animation: gradient-animation 5s ease infinite;
+	background: linear-gradient(to right, #6c63ff 0%, #ff636c 100%);
 }
 
 .top-container {
@@ -60,11 +59,7 @@ body {
 }
 
 .button-container {
-	position: relative;
 	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 }
 
 .container input[type="submit"] {
@@ -85,23 +80,24 @@ body {
 
 .container input[type="submit"].disabled {
 	pointer-events: none;
-	visibility: hidden;
+	background-color: grey;
 }
 
 .loader{
-	position: absolute;
-	translate: 0 50%;
-	min-height: 1px;
-	min-width: 1px;	
-	visibility: hidden;
-	--main-color: #5E6FFF;
+position: absolute;
+left: 50%;
+top: 50%;
+transform: translate(-50%, -50%);
+min-height: 1px;
+min-width: 1px;
+width: 100%;
+}
+
+.loader{
+--main-color: #5E6FFF;
 --highlight-color: #CED3FF;
 --bullet: 25%; /* 50% for round or 0% for square*/
 --size: 7px; /* 7px is standard size */
-}
-
-.loader.disabled{
-	visibility: visible;
 }
 
 .loader span{
@@ -114,7 +110,7 @@ transition: transform .2s ease-in-out, background .2s ease;
 -moz-transition: transform .2s ease-in-out, background .2s ease;
 animation-iteration-count: infinite;
 animation-name: highlight;
-animation-duration: 3s;
+animation-duration: 1.2s;
 border-radius: var(--bullet);
 background: var(--main-color);
 }
