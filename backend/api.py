@@ -25,6 +25,9 @@ def get_connections(dir_id):
             ) if key.startswith('course') and value != None}
             shared_courses = student_courses.intersection(connection_courses)
             connections.append([connection.dir_id, list(shared_courses)])
+
+    connections.sort(key=lambda entry: len(entry[1]), reverse=True)
+    
     return jsonify({"connections": connections}), 200
 
 
@@ -52,7 +55,7 @@ def create_student(dir_id):
     new_student = Student(dir_id=dir_id)
     db.session.add(new_student)
     db.session.commit()
-    return jsonify({"message": "Student created"}), 201
+    return jsonify({"message": "Student created"}), 200
 
 
 @app.route("/update_student", methods=["PUT"])

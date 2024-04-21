@@ -71,18 +71,19 @@ function ResultsApp({ dirID }) {
                 </ul>
             </div>
             <div className="connections">
-                <div className="connections">
-                    {connections.map(([name, courses]) => (
-                        courses.length > 0 && ( // Conditional rendering
-                            <div key={name} className="cnct-item">
-                                <h2 className="cnct-name">{name}</h2>
-                                {courses.map(course => (
-                                    <div key={course} className="cnct-course">{course}</div>
-                                ))}
-                            </div>
-                        )
-                    ))}
-                </div>
+                {connections.map(([name, courses]) => (
+                    <div className="cnct-item" key={name}> {/* Add a unique key here */}
+                        <h2 className="cnct-name">{name}</h2>
+                        <div className="seperator"></div>
+                        <div className="cnct-course-container">
+                            {courses.map(course => (
+                                <div className="cnct-course" key={course}>
+                                    {course}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     );

@@ -40,7 +40,7 @@
 	--gradX: 100%;
 	--gradY: 50%;
 	--c1: #e73c7e;
-	--c2: #23a6d5;
+	--c2: #ffffff;
 }
 
 .class-list h1 {
@@ -130,8 +130,7 @@
     flex: 1;
     height: 100%;
     padding-top: 5%;
-    background: linear-gradient(-45deg, #111, #191fca, #23a6d5, #23d5ab);
-    animation: gradient 15s ease infinite;
+    background: linear-gradient(-45deg, #111, #00158b, #23a5d5, #23d5ab);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -140,12 +139,29 @@
 }
 
 .cnct-item {
-    width: 70%;
+    display: flex; 
+    flex-direction: row;
+    width: 60%;
     height: fit-content;
-    background-color: white;
+    background-color: #ffe9ec;
     padding: 8px;
     border: 3px solid #111;
     border-radius: 8px;
+    align-items: center;
+}
+
+.seperator {
+    width: 2px; 
+    background-color: #000; 
+    margin: 0 10px; 
+    height: 40px;
+    margin-left: 20px;
+}
+
+.cnct-name {
+    display: block;
+    align-items: center;
+    padding-left: 10px;
 }
 
 .cnct-course-container {
@@ -153,6 +169,12 @@
     flex-wrap: wrap;
     justify-content: start;
     gap: 20px;
+    margin-left: 30px;
+    align-items: center;
+}
+
+.cnct-course {
+  flex: 1
 }
 
 @keyframes gradient {
